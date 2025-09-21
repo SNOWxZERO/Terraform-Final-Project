@@ -1,0 +1,5 @@
+bucket_name    = "terraform-states-muhammadgad"
+dynamodb_table = "terraform-locks-muhammadgad"
+name_prefix   = "Gad-ITI-Project"
+environment   = "dev"
+region        = "us-east-1"
