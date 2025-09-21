@@ -3,17 +3,18 @@ variable "public_key_path" {
     type        = string
     default     = "C:\\Users\\SNOW\\.ssh\\mykey.pub"
     }
-variable "instance_type" {
-    description = "EC2 instance type"
-    type        = string
-    default     = "t3.micro"
-    }
-
+variable "name_prefix" {
+  type    = string
+  default = "Gad-lab3-ITI"
+  description = "Prefix for resource names"
+}
 variable "instances" {
+  description = "EC2 instance configurations"
   type = map(object({
-    count                  = number
-    subnet_type            = string   # "public" or "private"
-    associate_public_ip    = bool
-    user_data              = string
+    instance_type   = string
+    subnet_key      = string
+    security_group  = string
+    server_type     = string
+    user_data_file  = string
   }))
 }
