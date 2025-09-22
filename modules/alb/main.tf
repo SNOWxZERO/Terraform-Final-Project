@@ -4,8 +4,8 @@ resource "aws_lb" "albs" {
   name               = "${var.name_prefix}-${each.key}-alb"
   internal           = each.value.internal
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.SGs[each.value.security_group].id]
-  subnets           = [for subnet_key in each.value.subnet_keys : aws_subnet.PubOrPrivSubnet[subnet_key].id]
+  security_groups    = [var.security_group_ids[each.value.security_group]]
+  subnets           = [for subnet_key in each.value.subnet_keys : var.subnet_ids[subnet_key]]
 
   tags = { 
     Name = "${var.name_prefix}-${each.key}-alb"
@@ -13,14 +13,13 @@ resource "aws_lb" "albs" {
   }
 }
 
-# Unified Target Groups using for_each ✅
 resource "aws_lb_target_group" "tgs" {
   for_each = var.load_balancers
 
   name     = "${var.name_prefix}-${each.key}-tg"
   port     = each.value.target_port
   protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = var.vpc_id
 
   health_check {
     enabled             = true
@@ -37,7 +36,6 @@ resource "aws_lb_target_group" "tgs" {
   tags = { Name = "${var.name_prefix}-${each.key}-tg" }
 }
 
-# Unified Target Group Attachments using for_each ✅
 resource "aws_lb_target_group_attachment" "attachments" {
   for_each = {
     for pair in flatten([
@@ -51,11 +49,10 @@ resource "aws_lb_target_group_attachment" "attachments" {
   }
 
   target_group_arn = aws_lb_target_group.tgs[each.value.lb_key].arn
-  target_id        = aws_instance.servers[each.value.instance_key].id
+  target_id        = var.instance_ids[each.value.instance_key]
   port             = var.load_balancers[each.value.lb_key].target_port
 }
 
-# Unified Load Balancer Listeners using for_each ✅
 resource "aws_lb_listener" "listeners" {
   for_each = var.load_balancers
 
@@ -67,3 +64,4 @@ resource "aws_lb_listener" "listeners" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.tgs[each.key].arn
   }
+}

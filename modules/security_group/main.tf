@@ -2,7 +2,7 @@ resource "aws_security_group" "SGs" {
   for_each    = var.security_groups
   name        = "${var.name_prefix}-${each.key}-sg"
   description = each.value.description
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 
 
   dynamic "ingress" {
@@ -12,9 +12,6 @@ resource "aws_security_group" "SGs" {
       to_port     = ingress.value.to_port
       protocol    = ingress.value.protocol
       cidr_blocks = length(ingress.value.cidr_blocks) > 0 ? ingress.value.cidr_blocks : null
-      security_groups = length(ingress.value.security_groups) > 0 ? [
-        for sg in ingress.value.security_groups : aws_security_group.SGs[sg].id
-      ] : null
       description = ingress.value.description
     }
   }
@@ -26,9 +23,6 @@ resource "aws_security_group" "SGs" {
       to_port     = egress.value.to_port
       protocol    = egress.value.protocol
       cidr_blocks = length(egress.value.cidr_blocks) > 0 ? egress.value.cidr_blocks : null
-      security_groups = length(egress.value.security_groups) > 0 ? [
-        for sg in egress.value.security_groups : aws_security_group.SGs[sg].id
-      ] : null
       description = egress.value.description
     }
   }

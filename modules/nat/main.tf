@@ -6,7 +6,7 @@ resource "aws_eip" "nat-eip" {
   
   domain = "vpc"
   tags = { Name = "${var.name_prefix}-nat-eip-${each.key}" }
-  depends_on = [aws_internet_gateway.igw]
+  depends_on = [var.igw_id]
 }
 
 resource "aws_nat_gateway" "nat" {
@@ -16,7 +16,7 @@ resource "aws_nat_gateway" "nat" {
   }
   
   allocation_id = aws_eip.nat-eip[each.key].id
-  subnet_id     = aws_subnet.PubOrPrivSubnet[each.key].id
+  subnet_id     = var.public_subnets[each.key]
   tags = { Name = "${var.name_prefix}-nat-gw-${each.key}" }
   depends_on = [aws_eip.nat-eip]
 }

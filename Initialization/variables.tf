@@ -20,5 +20,5 @@ variable "environment" {
 variable "name_prefix" {
   description = "Prefix for resource names"
   type        = string
-  default     = "Gad-ITI-Project"
+  default     = "Gad-Project-ITI"
 }

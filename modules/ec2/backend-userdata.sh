@@ -75,7 +75,7 @@ cat > /usr/share/nginx/html/index.html << EOF
 <body>
     <div class="container">
         <div class="header">
-            <h1>🖥️ Backend Web Server</h1>
+            <h1>Backend Web Server</h1>
             <h2>Server: ${server_name}</h2>
         </div>
         
@@ -95,10 +95,10 @@ cat > /usr/share/nginx/html/index.html << EOF
         </div>
 
         <div class="status">
-            <h3>🎯 Lab 3 Success!</h3>
-            <p>✅ You are seeing content from a <strong>private subnet</strong> backend server</p>
-            <p>✅ Traffic flow: <strong>Internet → Public ALB → Proxy Server → Internal ALB → Backend Server (This page!)</strong></p>
-            <p>✅ This proves the complete multi-tier architecture is working correctly</p>
+            <h3>Lab 3 Success!</h3>
+            <p>You are seeing content from a <strong>private subnet</strong> backend server</p>
+            <p>Traffic flow: <strong>Internet → Public ALB → Proxy Server → Internal ALB → Backend Server (This page!)</strong></p>
+            <p>This proves the complete multi-tier architecture is working correctly</p>
         </div>
 
         <div class="info">

@@ -14,7 +14,6 @@ output "proxy_instance_ids" {
   }
 }
 
-# Backend server outputs
 output "backend_private_ips" {
   description = "Private IP addresses of backend servers"
   value = {
@@ -31,6 +30,12 @@ output "backend_instance_ids" {
   }
 }
 
+output "all_instance_ids" {
+  description = "All instance IDs"
+  value = {
+    for k, v in aws_instance.servers : k => v.id
+  }
+}
 
 output "instance_summary" {
   description = "Complete summary of all instances"

@@ -6,6 +6,6 @@ variable "vpc_cidr" {
 
 variable "name_prefix" {
   type    = string
-  default = "Gad-lab2-ITI"
+  default = "Gad-Project-ITI"
   description = "Prefix for resource names"
 }
